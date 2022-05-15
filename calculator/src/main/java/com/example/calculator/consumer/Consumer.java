@@ -21,20 +21,29 @@ public class Consumer implements Serializable {
 
     static Logger logger = LoggerFactory.getLogger(Consumer.class);
 
-    /*@RabbitListener(queues = RabbitMQConstants.QUEUE_RESULT)
-    private void receive(ResultDto resultDto){
-        System.out.println(resultDto.getResultDto());
-        logger.info("Received the result:" + resultDto.getResultDto());
-    }*/
-
     @RabbitListener(
             bindings = @QueueBinding(value = @Queue, exchange = @Exchange(value = "calculator_exchange", type = ExchangeTypes.TOPIC), key = "*.add"))
-
-    public String subtraction(Numbers numbers){
+    public String addition(Numbers numbers){
         BigDecimal result = Calculator.CalculatorSum(numbers.getOperating_A(), numbers.getOperating_B());
         return result.toString();
     }
-
-
+    @RabbitListener(
+            bindings = @QueueBinding(value = @Queue, exchange = @Exchange(value = "calculator_exchange", type = ExchangeTypes.TOPIC), key = "*.sub"))
+    public String subtraction(Numbers numbers){
+        BigDecimal result = Calculator.CalculatorSub(numbers.getOperating_A(), numbers.getOperating_B());
+        return result.toString();
+    }
+    @RabbitListener(
+            bindings = @QueueBinding(value = @Queue, exchange = @Exchange(value = "calculator_exchange", type = ExchangeTypes.TOPIC), key = "*.div"))
+    public String division(Numbers numbers){
+        BigDecimal result = Calculator.CalculatorDiv(numbers.getOperating_A(), numbers.getOperating_B());
+        return result.toString();
+    }
+    @RabbitListener(
+            bindings = @QueueBinding(value = @Queue, exchange = @Exchange(value = "calculator_exchange", type = ExchangeTypes.TOPIC), key = "*.mul"))
+    public String multiplication(Numbers numbers){
+        BigDecimal result = Calculator.CalculatorMul(numbers.getOperating_A(), numbers.getOperating_B());
+        return result.toString();
+    }
 }
 
