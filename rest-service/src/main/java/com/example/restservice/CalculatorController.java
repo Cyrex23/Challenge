@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 
 @RestController
-//@RequestMapping(value = "sum")
 public class CalculatorController implements Serializable {
 
     private Numbers numbers;
@@ -21,34 +20,26 @@ public class CalculatorController implements Serializable {
 
     @GetMapping("/sum")
     public ResponseEntity getSum(@RequestParam("a")String num1, @RequestParam("b")String num2) {
-        Calculator c = new Calculator(Float.parseFloat(num1),Float.parseFloat(num2));
-        c.CalculatorSum();
         this.numbers = new Numbers(Float.parseFloat(num1),Float.parseFloat(num2));
-        String result = this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_RESULT, this.numbers);
+        String result = this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_ADD, this.numbers);
         return new ResponseEntity(result,HttpStatus.OK);
     }
-    /*@GetMapping("/sub")
+    @GetMapping("/sub")
     public ResponseEntity getSub(@RequestParam("a")String num1, @RequestParam("b")String num2) {
-        Calculator c = new Calculator(Float.parseFloat(num1),Float.parseFloat(num2));
-        c.CalculatorSub();
-        this.resultDto = new Numbers(c.getResult());
-        this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_RESULT, this.resultDto);
-        return new ResponseEntity(c.getResult(),HttpStatus.OK);
+        this.numbers = new Numbers(Float.parseFloat(num1),Float.parseFloat(num2));
+        String result = this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_SUB, this.numbers);
+        return new ResponseEntity(result,HttpStatus.OK);
     }
     @GetMapping("/mul")
     public ResponseEntity getMul(@RequestParam("a")String num1, @RequestParam("b")String num2) {
-        Calculator c = new Calculator(Float.parseFloat(num1),Float.parseFloat(num2));
-        c.CalculatorMul();
-        this.resultDto = new Numbers(c.getResult());
-        this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_RESULT, this.resultDto);
-        return new ResponseEntity(c.getResult(),HttpStatus.OK);
+        this.numbers = new Numbers(Float.parseFloat(num1),Float.parseFloat(num2));
+        String result = this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_MUL, this.numbers);
+        return new ResponseEntity(result,HttpStatus.OK);
     }
     @GetMapping("/div")
     public ResponseEntity getDiv(@RequestParam("a")String num1, @RequestParam("b")String num2) {
-        Calculator c = new Calculator(Float.parseFloat(num1),Float.parseFloat(num2));
-        c.CalculatorDiv();
-        this.resultDto = new Numbers(c.getResult());
-        this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_RESULT, this.resultDto);
-        return new ResponseEntity(c.getResult(),HttpStatus.OK);
-    }*/
+        this.numbers = new Numbers(Float.parseFloat(num1),Float.parseFloat(num2));
+        String result = this.rabbitMQService.sendMessage(RabbitMQConstants.QUEUE_DIV, this.numbers);
+        return new ResponseEntity(result,HttpStatus.OK);
+    }
 }

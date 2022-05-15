@@ -34,7 +34,7 @@ public class RabbitMQConnection implements Serializable {
 
     @PostConstruct
     private void add(){
-        Queue queueResult = this.queue(RabbitMQConstants.QUEUE_RESULT);
+        Queue queueResult = this.queue(RabbitMQConstants.QUEUE_ADD);
 
         DirectExchange exchange = this.directExchange();
 
