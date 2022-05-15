@@ -9,10 +9,11 @@ import java.io.Serializable;
 @Service
 public class RabbitMQService implements Serializable {
     //Permite que o spring resolve e injete a classe(bean) instanciando o objecto.
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(String queueName, Object message){
-        this.rabbitTemplate.convertAndSend(queueName, message);
+    public String sendMessage(String queueName, Object message){
+        return (String) this.rabbitTemplate.convertSendAndReceive("calculator_exchange", queueName, message);
     }
 }
