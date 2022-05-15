@@ -21,6 +21,7 @@ public class Consumer implements Serializable {
 
     static Logger logger = LoggerFactory.getLogger(Consumer.class);
 
+    //Listeners
     @RabbitListener(
             bindings = @QueueBinding(value = @Queue, exchange = @Exchange(value = "calculator_exchange", type = ExchangeTypes.TOPIC), key = "*.add"))
     public String addition(Numbers numbers){
